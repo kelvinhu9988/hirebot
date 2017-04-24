@@ -2,5 +2,5 @@
     "appSecret": "fe30f3eab204a2cc2033d8fd55e64231",
     "pageAccessToken": "EAAELEe9VZASUBAJNWoem6ZAf4ZBkQPuQpcOnZBFSyrBZCKOt5ODY5LvU07tZALezbGm6ZAraWOKnLF3LMamjVov1RadLVCNyJCEO5DZA9fqblLAiRP4cP4lLuTHw2KZAC5sh6V2sFJuSzZAZCTeAXzru3tE7dZCQTjACbfV8oNGgZCJdOLgZDZD",
     "validationToken": "my_face_is_my_passwords",
-    "serverURL": ""
+    "serverURL": "https://serene-woodland-22959.herokuapp.com/"
 }
