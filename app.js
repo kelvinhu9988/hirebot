@@ -245,7 +245,7 @@ function receivedMessage(event) {
     console.log("Quick reply for message %s with payload %s",
       messageId, quickReplyPayload);
 
-    sendTextMessage(senderID, "Quick reply tapped");
+    sendTextMessage(senderID, "Quick reply tapped: " + quickReplyPayload);
     return;
   }
 
@@ -360,6 +360,16 @@ function receivedPostback(event) {
 
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
+
+  if (payload == "CONFIRM_MMPI_2_TEST") {
+    // Send back a Quick Reply message to confirm the request
+    sendConfirmQuickReply(senderID, "MMPI-2");
+  }
+
+  if (payload == "CONFIRM_INTERVIEW_QUESTIONS") {
+    // Send back a Quick Reply message to confirm the request
+    sendConfirmQuickReply(senderID, "Interview");
+  }
 
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
@@ -718,6 +728,57 @@ function sendQuickReply(recipientId) {
 
   callSendAPI(messageData);
 }
+
+/*
+ * Send a Quick Reply message with Yes/No buttons to confirm the user request.
+ *
+ */
+function sendConfirmQuickReply(recipientId, requestType) {
+
+  var messageText = "",
+      payloadYes = "",
+      payloadNo = "";
+
+  if (requestType == "MMPI-2"){
+    messageText = "The MMPI-2 Test is a standardized psychometric test of adult personality and psychopathology. \
+                  It is designed with 10 clinical scales which assess 10 major categories of abnormal human behavior, \
+                  and 4 validity scales, which assess a person’s general test-taking attitude and whether they answer the items on the test in a truthful and accurate manner. \
+                  Are you sure to enter the MMPI-2 Test now?";
+    payloadYes = "PAYLOAD_MMPI-2_PICKING_YES";
+    payloadNo  = "PAYLOAD_MMPI-2_PICKING_NO";
+  } else if (requestType == "Interview") {
+    messageText = "The following interview questions are prepared by the hiring company. \
+                  For each question, you will need to snap a video message to answer that question and send it back. \
+                  Are you sure to start the interview questions now?";
+    payloadYes = "PAYLOAD_Interview_PICKING_YES";
+    payloadNo  = "PAYLOAD_Interview_PICKING_NO";
+  }
+
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: messageText,
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"Yes",
+          "payload":payloadYes
+        },
+        {
+          "content_type":"text",
+          "title":"No",
+          "payload":payloadNo
+        }
+      ]
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
+
 
 /*
  * Send a read receipt to indicate the message has been read
