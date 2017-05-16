@@ -2105,7 +2105,6 @@ function receivedMessage(event) {
     }
 
 
-    sendTextMessage(senderID, "Quick reply tapped: " + quickReplyPayload);
     return;
   }
 
