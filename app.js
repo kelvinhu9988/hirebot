@@ -2272,6 +2272,7 @@ function receivedPostback(event) {
 
 function startMMPI2Test(recipientID) {
   state = "test";
+  questionIndex = 0;
   // Send the first MMPI-2 test question
   sendTestQuestionQuickReply(recipientID, questions[questionIndex]);
 }
@@ -2279,6 +2280,7 @@ function startMMPI2Test(recipientID) {
 
 function startInterview(recipientID) {
   state = "interview";
+  interviewIndex = 0;
   // Send the first interview question
   sendInterviewQuestion(recipientID, interview_questions[interviewIndex]);
   sendTextMessage(recipientID, "Snap a video!");
