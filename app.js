@@ -2116,6 +2116,7 @@ function receivedMessage(event) {
 
     if (quickReplyPayload == "PAYLOAD_INTERVIEW_NEXT_QUESTION_YES") {
       sendInterviewQuestion(senderID, interview_questions[interviewIndex]);
+      sendTextMessage(senderID, "Snap a video!");
     }
 
     return;
@@ -2271,7 +2272,6 @@ function receivedPostback(event) {
 
 function startMMPI2Test(recipientID) {
   state = "test";
-  sendTextMessage(recipientID, "testing");
   // Send the first MMPI-2 test question
   sendTestQuestionQuickReply(recipientID, questions[questionIndex]);
 }
@@ -2281,6 +2281,7 @@ function startInterview(recipientID) {
   state = "interview";
   // Send the first interview question
   sendInterviewQuestion(recipientID, interview_questions[interviewIndex]);
+  sendTextMessage(recipientID, "Snap a video!");
 }
 
 /*
@@ -2314,7 +2315,7 @@ function sendTextMessage(recipientId, messageText) {
     },
     message: {
       text: messageText,
-      metadata: "DEVELOPER_DEFINED_METADATA"
+      metadata: "TEXT_MESSAGE"
     }
   };
 
