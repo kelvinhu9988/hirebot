@@ -2107,7 +2107,7 @@ function receivedMessage(event) {
       sendTextMessage(senderID, "Interview started.");
       startInterview(senderID);
     } else if (quickReplyPayload == "PAYLOAD_INTERVIEW_PICKING_NO") {
-      sendTextMessage(senderID, "Interview is canceled.")
+      sendTextMessage(senderID, "Interview is canceled.");
     }
 
     if (quickReplyPayload == "PAYLOAD_INTERVIEW_NEXT_QUESTION_YES") {
