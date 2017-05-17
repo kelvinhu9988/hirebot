@@ -609,6 +609,14 @@ var questions = [
 ];
 
 /*
+ * MMPI-2 Test questions (Short Form: 370, Long Form: 576)
+ */
+var interview_questions = [
+  "What do you know about the company?",
+  "Tell me abuot a challenge or conflict you've faced at work, and how you dealt with it."
+];
+
+/*
  * Short Form by default
  */
 var questionLength = 371;
@@ -2062,7 +2070,6 @@ function receivedMessage(event) {
 
     //  Start MMPI-2 Test
     if (quickReplyPayload == "PAYLOAD_MMPI-2_PICKING_YES") {
-      sendTextMessage(senderID, "Test started.");
       startMMPI2Test(senderID);
 
     } else if (quickReplyPayload == "PAYLOAD_MMPI-2_PICKING_NO") {
@@ -2098,12 +2105,14 @@ function receivedMessage(event) {
     //  Start Interview Questions
     if (quickReplyPayload == "PAYLOAD_INTERVIEW_PICKING_YES") {
       sendTextMessage(senderID, "Interview started.");
-      state = "interview";
-
+      startInterview(senderID);
     } else if (quickReplyPayload == "PAYLOAD_INTERVIEW_PICKING_NO") {
       sendTextMessage(senderID, "Interview is canceled.")
     }
 
+    if (quickReplyPayload == "PAYLOAD_INTERVIEW_NEXT_QUESTION_YES") {
+      sendInterviewQuestion(senderID, interview_questions[interviewIndex]);
+    }
 
     return;
   }
@@ -2172,7 +2181,22 @@ function receivedMessage(event) {
 
 
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+    if (state == "interview") {
+      if (interviewIndex < interview_questions.length) {
+        interviewIndex++;
+        sendYesOrNoQuickReply(senderID, "Do you want to proceed to the next question?", "PAYLOAD_INTERVIEW_NEXT_QUESTION_YES", "PAYLOAD_INTERVIEW_NEXT_QUESTION_NO");
+      } else {
+        sendTextMessage(senderID, "Interview questions have been completed.");
+        state = "idle";
+        interviewIndex = 0;
+      }
+
+
+
+    } else {
+      sendTextMessage(senderID, "Message with attachment received");
+    }
+
   }
 }
 
@@ -2227,6 +2251,7 @@ function receivedPostback(event) {
   //  Confirm MMPI-2 Test
   if (payload == "CONFIRM_MMPI_2_TEST") {
     // Send back a Quick Reply message to confirm the request
+
     sendConfirmQuickReply(senderID, "MMPI-2");
   }
 
@@ -2245,6 +2270,14 @@ function startMMPI2Test(recipientID) {
   state = "test";
   // Send the first MMPI-2 test question
   sendTestQuestionQuickReply(recipientID, questions[questionIndex]);
+}
+
+var interviewIndex = 0;
+
+function startInterview(recipientID) {
+  state = "interview";
+  // Send the first interview question
+  sendInterviewQuestion(recipientID, interview_questions[interviewIndex]);
 }
 
 /*
@@ -2377,18 +2410,19 @@ function sendFileMessage(recipientId) {
   callSendAPI(messageData);
 }
 
+
 /*
- * Send a text message using the Send API.
+ * Send an interview question to the user.
  *
  */
-function sendTextMessage(recipientId, messageText) {
+function sendInterviewQuestion(recipientId, question) {
   var messageData = {
     recipient: {
       id: recipientId
     },
     message: {
-      text: messageText,
-      metadata: "DEVELOPER_DEFINED_METADATA"
+      text: question,
+      metadata: "INTERVIEW_QUESTION"
     }
   };
 
@@ -2634,6 +2668,36 @@ Are you sure to start the interview questions now?";
 
   callSendAPI(messageData);
 }
+
+/*
+ * Send a Quick Reply message with Yes/No buttons to confirm the user request.
+ *
+ */
+function sendYesOrNoQuickReply(recipientId, messageText, payloadYes, payloadNo) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: messageText,
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"Yes",
+          "payload":payloadYes
+        },
+        {
+          "content_type":"text",
+          "title":"No",
+          "payload":payloadNo
+        }
+      ]
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
 
 /*
  * Send a message with Quick Reply buttons.
