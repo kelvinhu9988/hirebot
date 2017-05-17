@@ -609,7 +609,7 @@ var questions = [
 ];
 
 /*
- * MMPI-2 Test questions (Short Form: 370, Long Form: 576)
+ * Interview questions designed by the recruiting company
  */
 var interview_questions = [
   "What do you know about the company?",
@@ -1638,6 +1638,10 @@ var answers = [undefined];
 var gender = 0;
 
 
+var questionIndex = 1;
+var interviewIndex = 0;
+
+
 function generate_scale_table_msg(msg_list) {
   var scale_table　= ["Scale", "Scale Description", "Raw Score", "K Score", "T Score", "% Answered"];
   var msg_to_return = "| ";
@@ -2264,15 +2268,14 @@ function receivedPostback(event) {
 
 }
 
-var questionIndex = 1;
 
 function startMMPI2Test(recipientID) {
   state = "test";
+  sendTextMessage(recipientID, "testing");
   // Send the first MMPI-2 test question
   sendTestQuestionQuickReply(recipientID, questions[questionIndex]);
 }
 
-var interviewIndex = 0;
 
 function startInterview(recipientID) {
   state = "interview";
