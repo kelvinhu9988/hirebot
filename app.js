@@ -2283,7 +2283,7 @@ function startInterview(recipientID) {
   interviewIndex = 0;
   // Send the first interview question
   sendInterviewQuestion(recipientID, interview_questions[interviewIndex]);
-  sendTextMessage(recipientID, "Snap a video!");
+  setTimeout(sendTextMessage, 100, recipientID, "Snap a video!");
 }
 
 /*
