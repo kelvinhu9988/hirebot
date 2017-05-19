@@ -17,6 +17,7 @@ const
   express = require('express'),
   https = require('https'),
   request = require('request');
+  d3 = require('d3');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -97,20 +98,20 @@ var AffectivaEmotionDetection = (function() {
   };
 
   var run = function() {
-    // Cache the timestamp of the first frame processed
-    var startTimestamp = (new Date()).getTime() / 1000;
-
-    // Get imageData object.
-    var imageData = context.getImageData(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
-
-    // Get current time in seconds
-    var now = (new Date()).getTime() / 1000;
-
-    // Get delta time between the first frame and the current frame.
-    var deltaTime = now - startTimestamp;
-
-    //Process the frame
-    detector.process(imageData, deltaTime);
+    // // Cache the timestamp of the first frame processed
+    // var startTimestamp = (new Date()).getTime() / 1000;
+    //
+    // // Get imageData object.
+    // var imageData = context.getImageData(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
+    // 
+    // // Get current time in seconds
+    // var now = (new Date()).getTime() / 1000;
+    //
+    // // Get delta time between the first frame and the current frame.
+    // var deltaTime = now - startTimestamp;
+    //
+    // //Process the frame
+    // detector.process(imageData, deltaTime);
   };
 
 
