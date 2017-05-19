@@ -1,7 +1,7 @@
 {
-  "name": "messenger-get-started",
+  "name": "hirebot",
   "version": "1.0.0",
-  "description": "Get started example for Messenger Platform",
+  "description": "HireBot is a chatbot designed to evaluate the personality traits of a job candidate.",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -10,9 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fbsamples/messenger-platform-samples.git"
+    "url": "https://github.com/kelvinhu9988/hirebot.git"
   },
-  "author": "Facebook",
+  "author": "Siyuan Hu",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.0",

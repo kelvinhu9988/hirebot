@@ -29,7 +29,7 @@ app.use(express.static('public'));
  * The function object includes a set of utility functions
  * and uses the Affectiva SDK to process the received video message.
  */
-var AffectivaEmotionDetection = (function() {
+var AffectivaEmotionDetection = function() {
   var video = null;
   var detector = null;
   var processed_frames = [ [], [], [], [], [], [], [], [] ];
@@ -124,15 +124,30 @@ var AffectivaEmotionDetection = (function() {
     run: run
   };
 
-})();
+};
 
 
+var users_data = {};
 
 
 /*
  * The state variable describes the current state of the conversation (idle/test/interview).
  */
 var state = "idle";
+
+/*
+ * Answers to MMPI-2 test questions: [T,F,?] (The first item is undefined.)
+ */
+var answers = [undefined];
+
+/*
+ * Tester gender: 0==male, 1==female
+ */
+var gender = 0;
+var questionIndex = 1;
+var interviewIndex = 1;
+
+
 
 /*
  * MMPI-2 Test questions (Short Form: 370, Long Form: 576)
@@ -716,6 +731,8 @@ var questions = [
  * Interview questions designed by the recruiting company
  */
 var interview_questions = [
+  // 0 - Description
+	"Interview Questions",
   "What do you know about the company?",
   "Tell me abuot a challenge or conflict you've faced at work, and how you dealt with it."
 ];
@@ -1731,19 +1748,7 @@ var scales = [
 	]
 ];
 
-/*
- * Answers to MMPI-2 test questions: [T,F,?] (The first item is undefined.)
- */
-var answers = [undefined];
 
-/*
- * Tester gender: 0==male, 1==female
- */
-var gender = 0;
-
-
-var questionIndex = 1;
-var interviewIndex = 0;
 
 
 function generate_scale_table_msg(msg_list) {
@@ -2021,6 +2026,8 @@ app.post('/webhook', function (req, res) {
 
       // Iterate over each messaging event
       pageEntry.messaging.forEach(function(messagingEvent) {
+        users_data[messagingEvent.sender.id] = {"state":"idle", "gender":0, "questionIndex":1, "interviewIndex":1, "answers":[]};
+
         if (messagingEvent.optin) {
           receivedAuthentication(messagingEvent);
         } else if (messagingEvent.message) {
