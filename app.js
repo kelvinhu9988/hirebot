@@ -2408,9 +2408,6 @@ function receivedPostback(event) {
     sendConfirmQuickReply(senderID, "Interview");
   }
 
-  if (event.message.text == "Get Started") {
-    sendTextMessage(senderID, "Welcome to HireBot! Check out the main menu below to get started :)");
-  }
 
 
 }
