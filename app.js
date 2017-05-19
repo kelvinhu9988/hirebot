@@ -68,7 +68,7 @@ var AffectivaEmotionDetection = function() {
     frames.push(canvas);
   };
 
-  var init = function() {
+  var init = function(url) {
     // Get a canvas element from DOM
 
     video = document.createElement("video");
@@ -91,9 +91,11 @@ var AffectivaEmotionDetection = function() {
     }, false);
 
     video.preload = "auto";
-    video.src = "https://media.w3.org/2010/05/sintel/trailer.mp4";
+    video.src = url;
 
     video_duration_sec = video.duration;
+
+    return
 
   };
 
@@ -121,7 +123,10 @@ var AffectivaEmotionDetection = function() {
 
   return {
     init: init,
-    run: run
+    run: run,
+    getFrames: function() {
+      return frames;
+    }
   };
 
 };
@@ -2138,6 +2143,7 @@ function receivedAuthentication(event) {
   sendTextMessage(senderID, "Authentication successful");
 }
 
+
 /*
  * Message Event
  *
@@ -2304,6 +2310,10 @@ function receivedMessage(event) {
 
       if (messageAttachments.type == "video") {
         var videoMessageURL = messageAttachments.payload.url;
+
+        var affectiva = AffectivaEmotionDetection();
+        affectiva.init(videoMessageURL);
+        sendTextMessage(senderID, "" + affectiva.getFrames().length);
 
       }
 
