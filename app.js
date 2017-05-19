@@ -2299,7 +2299,7 @@ function receivedMessage(event) {
     }
 
     if (state == "test") {
-      if messageText == "End") {
+      if (messageText == "End") {
         answers = [];
         questionIndex = 1;
         sendTextMessage(senderID, "Test is canceled.");
