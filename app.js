@@ -16,7 +16,7 @@ const
   crypto = require('crypto'),
   express = require('express'),
   https = require('https'),
-  request = require('request');
+  request = require('request'),
   d3 = require('d3');
 
 var app = express();
@@ -103,7 +103,7 @@ var AffectivaEmotionDetection = (function() {
     //
     // // Get imageData object.
     // var imageData = context.getImageData(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
-    // 
+    //
     // // Get current time in seconds
     // var now = (new Date()).getTime() / 1000;
     //
