@@ -53,8 +53,8 @@ var AffectivaEmotionDetection = (function() {
 
 
   var svg_width = 720;
-  var x_scale = d3.scale.linear().domain([0, 0]).range([0, svg_width]);
-  var y_scale = d3.scale.linear().domain([100, 0]).range([2, 248]);
+  var x_scale = d3.scaleLinear().domain([0, 0]).range([0, svg_width]);
+  var y_scale = d3.scaleLinear().domain([100, 0]).range([2, 248]);
   var t = null;
 
   var API_KEY = "AIzaSyCdQbLORhF7PGVJ7DG1tkoVJGgDYwA_o0M";
