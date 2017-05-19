@@ -2296,9 +2296,14 @@ function receivedMessage(event) {
       case 'account linking':
         sendAccountLinking(senderID);
         break;
+    }
 
-      default:
-        sendTextMessage(senderID, messageText);
+    if (state == "test") {
+      if messageText == "End") {
+        answers = [];
+        questionIndex = 1;
+        sendTextMessage(senderID, "Test is canceled.");
+      }
     }
 
 
@@ -2315,18 +2320,20 @@ function receivedMessage(event) {
         affectiva.init(videoMessageURL);
         sendTextMessage(senderID, "" + affectiva.getFrames().length);
 
+
+        if (interviewIndex < interview_questions.length) {
+          interviewIndex++;
+          sendYesOrNoQuickReply(senderID, "Do you want to proceed to the next question?", "PAYLOAD_INTERVIEW_NEXT_QUESTION_YES", "PAYLOAD_INTERVIEW_NEXT_QUESTION_NO");
+        } else {
+          sendTextMessage(senderID, "Interview questions have been completed.");
+          state = "idle";
+          interviewIndex = 1;
+        }
       }
 
 
 
-      if (interviewIndex < interview_questions.length) {
-        interviewIndex++;
-        sendYesOrNoQuickReply(senderID, "Do you want to proceed to the next question?", "PAYLOAD_INTERVIEW_NEXT_QUESTION_YES", "PAYLOAD_INTERVIEW_NEXT_QUESTION_NO");
-      } else {
-        sendTextMessage(senderID, "Interview questions have been completed.");
-        state = "idle";
-        interviewIndex = 0;
-      }
+
 
 
 
@@ -2385,6 +2392,11 @@ function receivedPostback(event) {
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
 
+  if (payload = "GET_STARTED_BUTTON") {
+    sendTextMessage(senderID, "Welcome to HireBot! Check out the main menu below to get started :)");
+  }
+
+
   //  Confirm MMPI-2 Test
   if (payload == "CONFIRM_MMPI_2_TEST") {
     // Send back a Quick Reply message to confirm the request
@@ -2412,7 +2424,7 @@ function startMMPI2Test(recipientID) {
 
 function startInterview(recipientID) {
   state = "interview";
-  interviewIndex = 0;
+  interviewIndex = 1;
   // Send the first interview question
   sendInterviewQuestion(recipientID, interview_questions[interviewIndex]);
   setTimeout(sendTextMessage, 100, recipientID, "Snap a video!");
