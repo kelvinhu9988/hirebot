@@ -2408,7 +2408,7 @@ function receivedPostback(event) {
     sendConfirmQuickReply(senderID, "Interview");
   }
 
-  if (payload = "GET_STARTED_BUTTON") {
+  if (event.message.text == "Get Started" && payload = "GET_STARTED_BUTTON") {
     sendTextMessage(senderID, "Welcome to HireBot! Check out the main menu below to get started :)");
   }
 
