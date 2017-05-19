@@ -24,6 +24,109 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
+/*
+ * The function object includes a set of utility functions
+ * and uses the Affectiva SDK to process the received video message.
+ */
+var AffectivaEmotionDetection = (function() {
+  var video = null;
+  var detector = null;
+  var processed_frames = [ [], [], [], [], [], [], [], [] ];
+  var face_visible = true;
+  var frames = [];
+
+
+  var VIDEO_WIDTH  = 720;
+  var VIDEO_HEIGHT = 1280;
+  var video_duration_sec = 0;
+
+  var start_time = 0;
+  var stop_time = 0;
+  var playing = false;
+
+  var video_current_time = 0;
+
+  var emotions = ["joy", "anger", "disgust", "contempt", "surprise"];
+  var colors = ["#FFFFFF", "orangered", "deeppink", "yellow", "green"];
+  var selected_emotion = "all";
+
+
+  var svg_width = 720;
+  var x_scale = d3.scale.linear().domain([0, 0]).range([0, svg_width]);
+  var y_scale = d3.scale.linear().domain([100, 0]).range([2, 248]);
+  var t = null;
+
+  var API_KEY = "AIzaSyCdQbLORhF7PGVJ7DG1tkoVJGgDYwA_o0M";
+
+  var generateFrame = function(current_time) {
+    var canvas  = document.createElement("canvas");
+    var context = canvas.getContext('2d');
+    canvas.width  = VIDEO_WIDTH;
+    canvas.height = VIDEO_HEIGHT;
+    context.drawImage(video, 0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
+    frames.push(canvas);
+  };
+
+  var init = function() {
+    // Get a canvas element from DOM
+
+    video = document.createElement("video");
+
+    video.addEventListener('loadeddata', function() {
+      video.currentTime = video_current_time;
+    }, false);
+
+    video.addEventListener('seeked', function() {
+      // now video has seeked and the current frame will show at the time as we expect
+      generateFrame(video_current_time);
+
+      // when the current frame is captured, increase the current time
+      video_current_time += 0.1;
+
+      if (video_current_time <= video.duration) {
+        // this will trigger another seeked event
+        video.currentTime = video_current_time;
+      }
+    }, false);
+
+    video.preload = "auto";
+    video.src = "https://media.w3.org/2010/05/sintel/trailer.mp4";
+
+    video_duration_sec = video.duration;
+
+  };
+
+  var run = function() {
+    // Cache the timestamp of the first frame processed
+    var startTimestamp = (new Date()).getTime() / 1000;
+
+    // Get imageData object.
+    var imageData = context.getImageData(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
+
+    // Get current time in seconds
+    var now = (new Date()).getTime() / 1000;
+
+    // Get delta time between the first frame and the current frame.
+    var deltaTime = now - startTimestamp;
+
+    //Process the frame
+    detector.process(imageData, deltaTime);
+  };
+
+
+  var get_current_time_adjusted = function() {
+    return Date.now() - time_buffering_ms;
+  };
+
+  return {
+    init: init,
+    run: run
+  };
+
+})();
+
+
+
 
 /*
  * The state variable describes the current state of the conversation (idle/test/interview).
@@ -2186,7 +2289,18 @@ function receivedMessage(event) {
 
 
   } else if (messageAttachments) {
+
+
+
     if (state == "interview") {
+
+      if (messageAttachments.type == "video") {
+        var videoMessageURL = messageAttachments.payload.url;
+
+      }
+
+
+
       if (interviewIndex < interview_questions.length) {
         interviewIndex++;
         sendYesOrNoQuickReply(senderID, "Do you want to proceed to the next question?", "PAYLOAD_INTERVIEW_NEXT_QUESTION_YES", "PAYLOAD_INTERVIEW_NEXT_QUESTION_NO");
