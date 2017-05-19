@@ -739,7 +739,7 @@ var interview_questions = [
   // 0 - Description
 	"Interview Questions",
   "What do you know about the company?",
-  "Tell me abuot a challenge or conflict you've faced at work, and how you dealt with it."
+  "Tell me about a challenge or conflict you've faced at work, and how you dealt with it."
 ];
 
 /*
@@ -2392,9 +2392,7 @@ function receivedPostback(event) {
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
 
-  if (payload = "GET_STARTED_BUTTON") {
-    sendTextMessage(senderID, "Welcome to HireBot! Check out the main menu below to get started :)");
-  }
+
 
 
   //  Confirm MMPI-2 Test
@@ -2408,6 +2406,10 @@ function receivedPostback(event) {
   if (payload == "CONFIRM_INTERVIEW_QUESTIONS") {
     // Send back a Quick Reply message to confirm the request
     sendConfirmQuickReply(senderID, "Interview");
+  }
+
+  if (payload = "GET_STARTED_BUTTON") {
+    sendTextMessage(senderID, "Welcome to HireBot! Check out the main menu below to get started :)");
   }
 
 
