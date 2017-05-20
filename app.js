@@ -2325,7 +2325,7 @@ function receivedMessage(event) {
           interviewIndex++;
           sendImageMessage(senderID, "/assets/emotion_tracking.png");
           sendImageMessage(senderID, "/assets/radar_chart.png");
-          sendYesOrNoQuickReply(senderID, "Do you want to proceed to the next question?", "PAYLOAD_INTERVIEW_NEXT_QUESTION_YES", "PAYLOAD_INTERVIEW_NEXT_QUESTION_NO");
+          setTimeout(sendYesOrNoQuickReply, 1000, senderID, "Do you want to proceed to the next question?", "PAYLOAD_INTERVIEW_NEXT_QUESTION_YES", "PAYLOAD_INTERVIEW_NEXT_QUESTION_NO");
         } else {
           sendTextMessage(senderID, "Interview questions have been completed.");
           state = "idle";
