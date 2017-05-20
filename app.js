@@ -2482,7 +2482,7 @@ function sendImageMessage(recipientId, imageURL) {
       attachment: {
         type: "image",
         payload: {
-          url: SERVER_URL + imageURL;
+          url: SERVER_URL + imageURL
         }
       }
     }
