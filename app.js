@@ -2323,6 +2323,8 @@ function receivedMessage(event) {
 
         if (interviewIndex < interview_questions.length) {
           interviewIndex++;
+          sendImageMessage(senderID, "/assets/emotion_tracking.png");
+          sendImageMessage(senderID, "/assets/radar_chart.png");
           sendYesOrNoQuickReply(senderID, "Do you want to proceed to the next question?", "PAYLOAD_INTERVIEW_NEXT_QUESTION_YES", "PAYLOAD_INTERVIEW_NEXT_QUESTION_NO");
         } else {
           sendTextMessage(senderID, "Interview questions have been completed.");
@@ -2471,7 +2473,7 @@ function sendTextMessage(recipientId, messageText) {
  * Send an image using the Send API.
  *
  */
-function sendImageMessage(recipientId) {
+function sendImageMessage(recipientId, imageURL) {
   var messageData = {
     recipient: {
       id: recipientId
@@ -2480,7 +2482,7 @@ function sendImageMessage(recipientId) {
       attachment: {
         type: "image",
         payload: {
-          url: SERVER_URL + "/assets/rift.png"
+          url: SERVER_URL + imageURL;
         }
       }
     }
