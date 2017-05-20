@@ -2316,9 +2316,9 @@ function receivedMessage(event) {
       if (messageAttachments.type == "video") {
         var videoMessageURL = messageAttachments.payload.url;
 
-        var affectiva = AffectivaEmotionDetection();
-        affectiva.init(videoMessageURL);
-        sendTextMessage(senderID, "" + affectiva.getFrames().length);
+        // var affectiva = AffectivaEmotionDetection();
+        // affectiva.init(videoMessageURL);
+        // sendTextMessage(senderID, "" + affectiva.getFrames().length);
 
 
         if (interviewIndex < interview_questions.length) {
