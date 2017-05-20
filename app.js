@@ -2417,7 +2417,7 @@ function receivedPostback(event) {
 
 function startMMPI2Test(recipientID) {
   state = "test";
-  questionIndex = 0;
+  questionIndex = 1;
   // Send the first MMPI-2 test question
   sendTestQuestionQuickReply(recipientID, questions[questionIndex]);
 }
