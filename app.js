@@ -2312,9 +2312,9 @@ function receivedMessage(event) {
 
 
     if (state == "interview") {
-
-      if (messageAttachments[0].type == "video") {
-        var videoMessageURL = messageAttachments.payload.url;
+      var messageAttachment = messageAttachments[0];
+      if (messageAttachment.type == "video") {
+        // var videoMessageURL = messageAttachment.payload.url;
 
         // var affectiva = AffectivaEmotionDetection();
         // affectiva.init(videoMessageURL);
