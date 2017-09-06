@@ -5,7 +5,7 @@ One of the main responsibilities of Human Resources is the task of screening can
 
 - HireBot is built with 4 main components: Facebook Messenger, Heroku, Affectiva and EmoVu. Facebook Messenger is a chatting platform where HireBot resides on. Heroku is a cloud platform where the chatbot application is deployed. Affectiva is a emotion technology company that provides open API to track the emotion states of a candidate when answering interview questions. EmoVu is a deep learning-based emotion recognition software that reads facial micro-expressions in real-time.
 <br />
-- <img src="./img/HireBot_software_design.png.jpg" style="width: 300px;"/>
+- <img src="./img/HireBot_software_design.png" style="width: 300px;"/>
 - ![Software Design](https://github.com/kelvinhu9988/hirebot/blob/master/img/HireBot_software_design.png =500x200)
 
 
