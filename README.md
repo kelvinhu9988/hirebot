@@ -16,5 +16,5 @@ One of the main responsibilities of Human Resources is the task of screening can
 
 - The hiring company usually provides a list of interview questions. Users need to send back a video message to answer each interview question. After the user sends the video message, the chatbot is going to process the video message and output the emotion analysis results, which is an emotion radar chart and an emotion tracking diagram. The following subsection is going to explain these two results.
 <br />
-<img src="./img/HireBot_interview.png" style="width: 250px;"/>
+<img src="./img/HireBot_interview.png" style="width: 50px;"/>
 
